@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>UTrack!</title>
+    <link rel="stylesheet" href="css/ext/bootstrap.css"/>
+    <link rel="stylesheet" href="css/utrack.css"/>
+</head>
+<body>
+
+<template id="radio_button_template">
+    <label class="radio-inline">
+        <input type="radio" value="1" checked> 1
+    </label>
+    <label class="radio-inline">
+        <input type="radio" value="2"> 2
+    </label>
+    <label class="radio-inline">
+        <input type="radio" value="3"> 3
+    </label>
+    <label class="radio-inline">
+        <input type="radio" value="4"> 4
+    </label>
+    <label class="radio-inline">
+        <input type="radio" value="5"> 5
+    </label>
+    <label class="radio-inline">
+        <span></span>
+    </label>
+</template>
+
+<template id="invalid_time_error_template">
+    <div class="alert alert-danger" role="alert">
+        <button id="close_error_button" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Error!</strong> Please ensure that you enter a valid time.
+    </div>
+</template>
+
+<div id="app_container" class="container">
+
+    <div class="jumbotron">
+        <h1>UTrack!</h1>
+
+        <p>Track and analyze data that matters to you!</p>
+    </div>
+
+    <nav class="navbar navbar-default navbar-static-top">
+        <div id="container" class="clearfix">
+            <ul id="tab_bar" class="nav navbar-nav">
+                <li id="input_tab" class="active"><a href="#">Input</a></li>
+                <li id="analysis_tab"><a href="#">Analysis</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="invalid_time_error_div">
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <div id="input_div">
+
+                <form id="activity_data_form" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="select_activity" class="col-md-4 control-label">Activity: </label>
+
+                        <div id="select_activity_div">
+                            <select id="select_activity" name="activity" class="form-control"
+                                    style="display: inline; width: 20%" required>
+                                <option value="Writing Code">Writing Code</option>
+                                <option value="Eating Dinner">Eating Dinner</option>
+                                <option value="Playing Sports">Playing Sports</option>
+                                <option value="Studying for Exams">Studying for Exams</option>
+                                <option value="Attending Lectures">Attending Lectures</option>
+                                <option value="Watching TV">Watching TV</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="energy_level" class="col-md-4 control-label">Energy Level: </label>
+
+                        <div id="energy_level">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="stress_level" class="col-md-4 control-label">Stress Level: </label>
+
+                        <div id="stress_level">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="happiness_level" class="col-md-4 control-label">Happiness Level: </label>
+
+                        <div id="happiness_level">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="time_text_input" class="col-md-4 control-label">Time Spent: </label>
+
+                        <div class="">
+                            <input id="time_text_input" class="form-control" style="display: inline; width: 10%"
+                                   type="number" name="time" min="0" required>
+                            <span> minutes</span>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+                <div style="display: inline">
+                    <p class="col-md-6 text-right">Last Data Entry was: </p>
+                    <span id="last_data_entry">N/A</span>
+                </div>
+                <button id="submit_button" class="btn btn-primary pull-right">Submit</button>
+            </div>
+
+            <div id="analysis_div" style="display: none">
+
+                <div id="analysis_select_view_div" class="col-md-4">
+
+                    <h3>Views:</h3>
+
+                    <form id="select_view_form">
+                        <div class="form-group">
+                            <label class="radio-inline">
+                                <input type="radio" class="radio" name="analysis_select_view" value="table" checked>
+                                Table Summary
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="radio-inline">
+                                <input type="radio" class="radio" name="analysis_select_view" value="pie_chart"> Pie
+                                Chart
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="radio-inline">
+                                <input type="radio" class="radio" name="analysis_select_view" value="bar_chart"> Bar
+                                Chart
+                            </label>
+                        </div>
+                        <div id="bar_chart_metrics_div" style="display:none">
+                            <label for="select_metrics" class=" control-label">Metrics: </label>
+                            <select id="select_metrics" form="select_view_form" name="metrics" class="form-control"
+                                    style="display: inline; width: 40%">
+                                <option value="energy">Energy</option>
+                                <option value="stress">Stress</option>
+                                <option value="happiness">Happiness</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="table_div" class="col-md-8">
+                </div>
+
+                <div id="chart_div" class="col-md-8" style="display: none">
+                    <canvas id="canvas" width="700" height="450">
+                        If you don't have an HTML5-compatible browser, you'll see this text.
+
+                        This canvas object can be removed after you understand canvas basics.
+                    </canvas>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div id="unit_tests">
+                <!-- Keep this here so TAs can run your unit tests -->
+                <a href="unit_tests.html">Run Unit Tests</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/ext/underscore.js"></script>
+<script src="js/model.js"></script>
+<script src="js/view.js"></script>
+<script src="js/utrack.js"></script>
+</body>
+</html>
